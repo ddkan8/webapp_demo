@@ -1,34 +1,26 @@
 require.config({
-	baseUrl : "./",
+	baseUrl : "./src/",
     map: {
       	'*': {
-        	'style': 'assets/lib/css.min'
+        	'style': 'assets/lib/requirejs/css.min'
       	}
     },
 	paths : {
 		/*
 		*	避免js文件名和映射名相同，防止打包时被当做js文件重命名
 		*/
-		'text' : 'assets/lib/text',
-		// style : 'assets/lib/css.min',
-		'avalon' : 'assets/lib/avalon/avalon',
-		'jquery' : 'assets/lib/jquery/jquery-1.11.3',
-		'base64' : 'assets/lib/base64/jquery.base64',
-		'mmRouter': 'assets/lib/mmRouter-0.5/mmRouter',
-		'mmHistory':'assets/lib/mmRouter-0.5/mmHistory',
-		'easyui' : 'assets/lib/easyui/jquery.easyui.min',
-		'loading' :'assets/lib/jquery/loading/loading-overlay.min',
+		'text' : 'assets/lib/requirejs/text',
+		'jquery' : 'assets/lib/jquery/jquery_1.11.3',
+		'hdb' : 'assets/lib/handlebars/handlebars_v4.0.4',
+		'json2' : 'assets/lib/json2/json2',
 		'pagination':'assets/lib/pagination/1.2.1/jquery.pagination',
 		'blockUI' : 'assets/lib/blockUI/2.64/jquery.blockUI.min',
 		'artDialog' : 'assets/lib/dialog/6.0.4/dialog',
 		'dialog' : 'assets/common/dialog_amd',
-		'wrapper' : 'assets/common/avalonJQcomponent',
-		'map' :'assets/common/map',
-		'config' : 'assets/common/router_config',
 		'ajax' : 'assets/common/ajax_amd',
 		'svMap' : 'assets/common/svConfig',
 		'pager' : 'assets/common/pager_amd',
-        'global_ref' : 'assets/common/global',
+        'Util' : 'assets/common/global',
 		'datepiker' : 'assets/lib/datepiker/WdatePicker'
 	},
 	waitSeconds:0,
@@ -59,17 +51,19 @@ require.config({
 			deps:['jquery'],
 			exports:'datepiker'
 		}
-	}//,
-	// urlArgs: function(config, moduleName, url){
-	// 	var urlArgs = requireConfig.get(moduleName);
-	// 	//avalon.log('moduleName:'+moduleName +'\turl:'+url);
-	// 	if(urlArgs===undefined)
-	// 		return "";
-	// 	return "bust=" + urlArgs;
-	// }
+	}
 });
-
-require(["global_ref",'js/main'], function(g, main) {
-	g.avalon.scan();
-	g.avalon.log('done!');
+/*
+	Util用法及作用：
+	Util集合了所有公用的js文件，并对外暴露相关接口，用于各模块调用。每个模块只需引入Util对象即可调用所有公用功能。
+	可以根据项目自行向Util内添加公用js。
+	作用：
+	1、确保打包时只对Util打包一次，防止模块私自引入公用js文件，导致引用混乱，重复压缩合并
+	2、方便统一调用公用js
+*/
+require(["Util"], function(Util) {
+	console.log(Util);
+	require(['js/example/demo'],function(demo){
+		alert(demo)
+	});
 });

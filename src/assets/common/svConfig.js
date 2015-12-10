@@ -17,7 +17,7 @@ define([''], function () {
             srcPref[1]: 后台地址路径前缀
         */
         // var srcPref = ["../../data/","http://221.176.67.103:30000/ecp/"];
-        srcPref: ["assets/data/","/smsManager/"],
+        srcPref: ["src/assets/data/","/smsManager/"],
         svArray: [ {}, {} ],
         add: function(uid, mockSrc, srvSrc) {
             this.svArray[0][uid] = this.srcPref[this.conf] + mockSrc;
